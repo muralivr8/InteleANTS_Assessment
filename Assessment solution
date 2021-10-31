@@ -1,0 +1,121 @@
+using System;
+using System.Collections.Generic;
+
+
+namespace Conway
+{
+    class Game
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the generation you want to research");
+            int n = Int32.Parse(Console.ReadLine());
+            Console.WriteLine("Please enter the number of inputs");
+            int sz = Int32.Parse(Console.ReadLine());
+            int[,] arr = new int[25, 25];
+            int a, b;
+            Console.WriteLine("Please enter the sets of values in format number1 number2");
+            for (int i = 0; i < sz; i++)
+            {
+                var line = Console.ReadLine();
+                var data = line.Split(' ');
+                a= int.Parse(data[0]); 
+                b= int.Parse(data[1]);
+                arr[a-1, b-1] = 1;
+            }
+        
+            for (int k = 0; k < n; k++)
+            {
+                List<List<int>> li = new List<List<int>>();
+                List<List<int>> lo = new List<List<int>>();
+                for (int i = 0; i < 25; i++)
+                {
+                    for (int j = 0; j < 25; j++)
+                    {
+                        a = chksurr(arr, i, j);
+                      
+                        if (arr[i, j] == 0)
+                        {
+                            if (a == 3)
+                            {
+                                List<int> lit = new List<int>();
+                                lit.Add(i);
+                                lit.Add(j);
+                                lo.Add(lit);
+                            }
+                        }
+                        else
+                        {
+                            if (a < 2 || a>3)
+                            {
+                                List<int> lit = new List<int>();
+                                lit.Add(i);
+                                lit.Add(j);
+                                li.Add(lit);
+                            }    
+                        }
+                    }
+                }
+
+                foreach(var lis in li)
+                {
+                    arr[lis[0], lis[1]] = 0;
+                }
+                foreach (var lis in lo)
+                {
+                    arr[lis[0], lis[1]] = 1;
+                }
+
+            }
+            Console.Write("At {0} generation live cells are: ",n);
+            Console.Write("[");
+            List < int > ans= new List<int>();
+            for (int i = 0; i < 25; i++)
+            {
+                for (int j = 0; j < 25; j++)
+                {
+                    if (arr[i, j] == 1)
+                    {
+                        ans.Add(i);
+                        ans.Add(j);
+                    }
+                        
+                }
+            }
+            for (int i = 0; i < ans.Count; i+=2)
+            {
+                
+                Console.Write("({0},{1})", ans[i] + 1, ans[i+1]+ 1);
+                if (i != ans.Count - 2)
+                    Console.Write(", ");
+            }
+                Console.WriteLine("]");
+
+            Console.Read();
+        }
+
+        private static int chksurr(int[,] arr, int a, int b)
+        {
+            int te = 0;
+            int[] ar1 = new int[] { 1, -1, 0 };
+            int[] ar2 = new int[] { 1, 0, -1 };
+
+            for (int i = 0; i < 3; i++)
+            {
+                for(int j=0;j<3;j++)
+                {
+                    if(!(ar1[i]==0 && ar2[j]==0))
+                    {
+                        if(ar1[i]+a>=0 && ar1[i]+a< arr.GetLength(0) && ar2[j] + b >= 0 && ar2[j] + b < arr.GetLength(0))
+                            if(arr[ar1[i]+a,ar2[j]+b]==1)
+                                te++;
+                    }
+                }
+            }
+
+            return te;
+        }
+    }
+}
+    
+
