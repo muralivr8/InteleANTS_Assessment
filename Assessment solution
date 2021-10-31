@@ -67,8 +67,8 @@ namespace Conway
                 }
 
             }
-            Console.Write("At {0} generation live cells are: ",n);
-            Console.Write("[");
+
+            Console.Write("At {0} generation live cells are: [",n);
             List < int > ans= new List<int>();
             for (int i = 0; i < 25; i++)
             {
@@ -82,15 +82,15 @@ namespace Conway
                         
                 }
             }
+
+
             for (int i = 0; i < ans.Count; i+=2)
             {
-                
                 Console.Write("({0},{1})", ans[i] + 1, ans[i+1]+ 1);
                 if (i != ans.Count - 2)
                     Console.Write(", ");
             }
-                Console.WriteLine("]");
-
+            Console.WriteLine("]");
             Console.Read();
         }
 
@@ -112,7 +112,6 @@ namespace Conway
                     }
                 }
             }
-
             return te;
         }
     }
